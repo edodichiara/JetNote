@@ -3,12 +3,14 @@ package com.example.jetnote.screen
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Notifications
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,6 +22,12 @@ import com.example.jetnote.components.NoteInputText
 
 @Composable
 fun NoteScreen() {
+    var title by remember {
+        mutableStateOf("")
+    }
+    var description by remember {
+        mutableStateOf("")
+    }
     Column(modifier = Modifier.padding(6.dp)) {
         TopAppBar(title = { Text(text = stringResource(id = R.string.app_name)) }, actions = {
             Icon(imageVector = Icons.Rounded.Notifications, contentDescription = "Icon")
@@ -29,7 +37,27 @@ fun NoteScreen() {
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            NoteInputText(text = "hello", label = "Hello", onTextChange = {})
+            NoteInputText(
+                text = title,
+                label = "Title",
+                onTextChange = {
+                    if (it.all { char ->
+                            char.isLetter() || char.isWhitespace()
+                        }) title = it
+                },
+                modifier = Modifier.padding(top = 9.dp, bottom = 8.dp)
+            )
+            NoteInputText(
+                text = description,
+                label = "Add a note",
+                onTextChange = {
+                    if (it.all { char ->
+                            char.isLetter() || char.isWhitespace()
+                        }) description = it
+                },
+                modifier = Modifier.padding(top = 9.dp, bottom = 8.dp)
+            )
+            NoteButton(text = "Save", onClick = { /*TODO*/ })
         }
     }
 
@@ -39,4 +67,21 @@ fun NoteScreen() {
 @Composable
 fun NoteScreenPreview() {
     NoteScreen()
+}
+
+@Composable
+fun NoteButton(
+    modifier: Modifier = Modifier,
+    text: String,
+    onClick: () -> Unit,
+    enabled: Boolean = true
+) {
+    Button(
+        onClick = { onClick.invoke() },
+        shape = CircleShape,
+        enabled = enabled,
+        modifier = modifier
+    ) {
+        Text(text = text)
+    }
 }
