@@ -111,10 +111,10 @@ fun NoteRow(modifier: Modifier = Modifier, note: Note, onNoteClick: (Note) -> Un
         ) {
             Text(text = note.title, style = MaterialTheme.typography.subtitle2)
             Text(text = note.description, style = MaterialTheme.typography.subtitle1)
-            Text(
-                text = note.entryDate.format(DateTimeFormatter.ofPattern("EEE, dd/MM/yyyy")),
-                style = MaterialTheme.typography.caption
-            )
+//            Text(
+//                text = note.entryDate.format(DateTimeFormatter.ofPattern("EEE, dd/MM/yyyy")),
+//                style = MaterialTheme.typography.caption
+//            )
         }
     }
 }
