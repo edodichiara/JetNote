@@ -24,21 +24,20 @@ class NoteViewModel @Inject constructor(private val noteRepository: NoteReposito
     init {
         //noteList.addAll(NotesDataSource().loadNotes())
         viewModelScope.launch(Dispatchers.IO) {
-            noteRepository.getAllNotes().distinctUntilChanged().collect{listOfNote ->
-                if (listOfNote.isEmpty()){
+            noteRepository.getAllNotes().distinctUntilChanged().collect { listOfNote ->
+                if (listOfNote.isEmpty()) {
                     Log.d("Empty", "Empty List")
-                } else {
-                    _noteList.value = listOfNote
                 }
+                _noteList.value = listOfNote
             }
         }
     }
 
-    suspend fun addNote(note: Note) = viewModelScope.launch { noteRepository.addNote(note = note) }
+    fun addNote(note: Note) = viewModelScope.launch { noteRepository.addNote(note = note) }
 
-    suspend fun updateNote(note: Note) =
+    fun updateNote(note: Note) =
         viewModelScope.launch { noteRepository.updateNote(note = note) }
 
-    suspend fun removeNote(note: Note) =
+    fun removeNote(note: Note) =
         viewModelScope.launch { noteRepository.deleteNote(note = note) }
 }
